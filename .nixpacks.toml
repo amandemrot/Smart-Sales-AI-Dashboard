@@ -1,7 +1,7 @@
 [phases.setup]
 nixPkgs = ["python311", "openjdk17"]
 
-[phases.build]
+[phases.install]
 cmds = ["cd backend && python -m pip install -r requirements.txt"]
 
 [start]
