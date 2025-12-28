@@ -171,10 +171,7 @@ Contributions are welcome! To contribute:
 
 Please ensure code follows PEP 8 for Python and ESLint rules for TypeScript/JavaScript.
 
-## 📜 License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
 
-**Happy Analyzing!** 🚀  
-For issues or questions, contact [Harisanth/hmsanth@gmail.com] or open an issue on GitHub.
+**Happy Analyzing!** 
