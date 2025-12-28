@@ -1,6 +1,5 @@
 [build]
-builder = "NIXPACKS"
+builder = "nixpacks"
 
 [deploy]
-rootDirectory = "backend"
-startCommand = "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+startCommand = "cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT"
