@@ -1,6 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.routers import dashboard
+import os
+os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-17-openjdk-amd64"
+os.environ["SPARK_LOCAL_HOSTNAME"] = "localhost"
+
+
 
 app = FastAPI(title="Dashboard API")
 
