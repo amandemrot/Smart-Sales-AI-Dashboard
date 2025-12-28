@@ -1,36 +1,31 @@
 import os
-import platform
-
-if platform.system() == "Windows":
-    os.environ["JAVA_HOME"] = "C:\\Java\\jdk-17.0.17+10"
-else:
-    os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-17-openjdk-amd64"
-
-os.environ["PATH"] = os.environ["JAVA_HOME"] + "/bin:" + os.environ["PATH"]
-os.environ["SPARK_LOCAL_HOSTNAME"] = "localhost"
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.routers import dashboard
+from pyspark.sql import SparkSession
 
+# --- Spark bootstrap (Railway safe) ---
+os.environ["PYSPARK_PYTHON"] = "python"
+os.environ["PYSPARK_DRIVER_PYTHON"] = "python"
+os.environ["SPARK_LOCAL_IP"] = "127.0.0.1"
 
+spark = SparkSession.builder \
+    .master("local[*]") \
+    .config("spark.driver.memory", "512m") \
+    .config("spark.executor.memory", "512m") \
+    .config("spark.sql.shuffle.partitions", "4") \
+    .config("spark.ui.enabled", "false") \
+    .getOrCreate()
+
+# --- FastAPI ---
 app = FastAPI(title="Dashboard API")
 
-# Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:9002",
-        "http://192.168.80.197:9002",
-    ],
+    allow_origins=["*"],   # allow frontend + production
     allow_credentials=True,
-    allow_methods=["*"],  # Allow all methods (GET, POST, etc.)
-    allow_headers=["*"],  # Allow all headers
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
-# Include the dashboard router
 app.include_router(dashboard.router)
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
