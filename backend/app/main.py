@@ -1,10 +1,17 @@
+import os
+import platform
+
+if platform.system() == "Windows":
+    os.environ["JAVA_HOME"] = "C:\\Java\\jdk-17.0.17+10"
+else:
+    os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-17-openjdk-amd64"
+
+os.environ["PATH"] = os.environ["JAVA_HOME"] + "/bin:" + os.environ["PATH"]
+os.environ["SPARK_LOCAL_HOSTNAME"] = "localhost"
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.routers import dashboard
-import os
-os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-17-openjdk-amd64"
-os.environ["SPARK_LOCAL_HOSTNAME"] = "localhost"
-
 
 
 app = FastAPI(title="Dashboard API")
